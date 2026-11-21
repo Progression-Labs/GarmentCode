@@ -5,6 +5,7 @@ design:
       range:
       - FittedShirt
       - Shirt
+      - FittedCoat
       - null
       type: select_null
       default_prob: 0.3
@@ -27,6 +28,7 @@ design:
       - SkirtManyPanels
       - PencilSkirt
       - SkirtLevels
+      - CoatSkirt
       - null
       type: select_null
       default_prob: 0.3
@@ -883,3 +885,54 @@ design:
         - 1
         - 1.5
         type: float
+  coat_skirt:
+    cut:
+      v: morning
+      range:
+      - frock
+      - morning
+      - tail
+      type: select
+      default_prob: 1.0
+    length:
+      v: 0.45
+      range:
+      - 0.2
+      - 0.7
+      type: float
+      default_prob: 0.7
+    front_drop:
+      v: 0.35
+      range:
+      - 0.1
+      - 0.8
+      type: float
+      default_prob: 0.7
+    cutaway_curve:
+      v: 0.15
+      range:
+      - 0.0
+      - 0.3
+      type: float
+      default_prob: 0.7
+    vent:
+      v: 0.55
+      range:
+      - 0.0
+      - 0.9
+      type: float
+      default_prob: 0.7
+    ease:
+      v: 1.08
+      range:
+      - 1.0
+      - 1.3
+      type: float
+      default_prob: 0.7
+    hang:
+      v: 1.5
+      range:
+      - 1.0
+      - 3.0
+      type: float
+      default_prob: 0.7
