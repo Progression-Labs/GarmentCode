@@ -54,9 +54,10 @@ class CoatSkirtPanel(pyg.Panel):
     `hem_curve` (a fraction of its length) when the front is cut away. With `vent_from` set, the
     centre edge is split there: the part above is the 'centre' interface (sewn to the other back
     panel), the part below is left open. With `side_sewn` shorter than the side, only that much
-    of the side below the waist is the 'side' interface, and below it the edge runs free to a hem
-    `hem_width` wide (from the centre): a tail, narrowing to its point as a cutter shapes one,
-    hanging below a front cut away above it.
+    of the side below the waist is the 'side' interface, and below it the edge runs free, out to
+    the hip line's width if it frees above that line, then to a hem `hem_width` wide (from the
+    centre): a tail, narrowing to its point as a cutter shapes one, hanging below a front cut
+    away above it.
     """
 
     def __init__(self, name, width, side_len, centre_len, hip_out=0., hip_depth=1., hem_curve=0.,
@@ -81,9 +82,13 @@ class CoatSkirtPanel(pyg.Panel):
         sewn.append(side_at(sewn_to))
         if free:
             side_bottom = [-(width + hip_out) if hem_width is None else -hem_width, -side_len]
-            verts = [side_bottom] + sewn[::-1]
+            # Free above the hip line (a tailcoat's tails, sewn only to the front's short drop),
+            # the tail still widens to carry its share of the hips there before it narrows to
+            # its point: run straight from the sewn end, it was drawn tight across the seat.
+            hip = [side_at(hip_depth)] if sewn_to < hip_depth < side_len else []
+            verts = [side_bottom] + hip + sewn[::-1]
             side = pyg.EdgeSeqFactory.from_verts(*verts)
-            sewn_edges = side[1:]
+            sewn_edges = side[1 + len(hip):]
         else:
             side_bottom = sewn[-1]
             side = pyg.EdgeSeqFactory.from_verts(*sewn[::-1])
