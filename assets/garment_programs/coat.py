@@ -185,11 +185,15 @@ class CoatSkirt(BaseBottoms):
         )
 
         self.interfaces = {
+            # Each waist runs against its bodice's: flipped, the right front's side meets the
+            # right front's side. Unflipped, every bodice dart's piece was sewn to the mirror
+            # piece of its skirt (the side of a front to its centre), and sewing dragged the
+            # fronts round to the back, crossed there in an X.
             'top': pyg.Interface.from_multiple(
-                self.front_r.interfaces['top'],
-                self.front_l.interfaces['top'],
-                self.back_l.interfaces['top'],
-                self.back_r.interfaces['top'],
+                self.front_r.interfaces['top'].flip_edges(),
+                self.front_l.interfaces['top'].flip_edges(),
+                self.back_l.interfaces['top'].flip_edges(),
+                self.back_r.interfaces['top'].flip_edges(),
             ),
         }
 
